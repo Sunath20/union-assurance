@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h1>Enter the file</h1>
+    <input type="file">
+    <button>Upload</button>
+    <script>
+
+        const uploadBtn = document.querySelector("button")
+        const inputForm = document.querySelector("input")
+        
+        async function upload(){
+            uploadBtn.disabled = true
+
+            const form = new FormData()
+            form.append("file.csv",inputForm.files[0],"file.csv")
+
+            const result = await fetch("/upload",{
+                method:"POST",
+                body:form
+            })
+
+            alert("Uploaded successfully")
+            uploadBtn.disabled = false
+        }
+
+        uploadBtn.addEventListener('click',upload)
+    </script>
+
+
+</body>
+</html>

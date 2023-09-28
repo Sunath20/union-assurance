@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Policy Listing</title>
+</head>
+<body>
+
+    <div class="root">
+
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Policy Number</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+
+
+            <tbody class="data-blocks">
+
+
+            </tbody>
+
+
+
+
+        </table>
+
+    </div>
+
+    <script>
+
+
+
+        var data;
+        fetch("/data").then(e => e.json()).then(e => {
+            data = e
+            const dataBlock = document.querySelector(".data-blocks")
+
+            for(let i = 1;i < data.length;i++){
+                const element = document.createElement("tr")
+
+
+                element.innerHTML = `  
+
+              
+                
+                    <td><button>Copy</button></td>
+                    <td>${data[i]['POLICY NO']}</td>
+                    <td>${data[i]['ASSURED']}</td>
+                    <td>${data[i]['PREMIUM(Rs)']}</td>
+
+                
+                
+                `
+
+
+                element.querySelector("button").addEventListener("click",async (e) => {
+                    e.preventDefault()
+                    const d = data[i]
+                    const html = `Policy Number: ${data[i]['POLICY NO']}
+Customer Name: ${data[i]['ASSURED']}
+Premium: Rs. ${data[i]['PREMIUM(Rs)']} `
+
+
+                    await navigator.clipboard.writeText(html)
+
+                    alert("Copied : " + data[i]['ASSURED'] )
+                }) 
+             
+
+                dataBlock.appendChild(element)
+            }
+
+        })
+
+    </script>
+
+
+    <style>
+
+        table{
+            width: 100%;
+            row-gap: 1rem;
+        }
+
+        tr{
+            width: 100%;
+            text-align: center;
+     
+        }
+
+        td{
+            padding:1rem !important;
+            width: 25%;
+        }
+    </style>
+    
+    
+</body>
+</html>
